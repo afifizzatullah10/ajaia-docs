@@ -82,7 +82,6 @@ export default function Editor() {
   const [shareEmail, setShareEmail] = useState('')
   const [shareError, setShareError] = useState('')
   const [shareBusy, setShareBusy] = useState(false)
-  const [uploadNote, setUploadNote] = useState('')
 
   const dirtyRef = useRef(false)
   const lastSavedRef = useRef({ title: '', content: '' })
@@ -270,13 +269,12 @@ export default function Editor() {
 
     const path = `${userData.user.id}/${Date.now()}_${file.name.replace(/[^\w.-]+/g, '_')}`
 
-    setUploadNote('Uploading…')
     const { error: upError } = await supabase.storage
       .from('uploads')
       .upload(path, file, { upsert: false })
 
     if (upError) {
-      setUploadNote(upError.message)
+      console.error(upError)
       return
     }
 
@@ -288,8 +286,6 @@ export default function Editor() {
       .insertContent(`<p><a href="${url}" rel="noopener noreferrer">${file.name}</a></p>`)
       .run()
     dirtyRef.current = true
-    setUploadNote('File linked in the document.')
-    setTimeout(() => setUploadNote(''), 4000)
   }
 
   const saveLabel =
@@ -354,12 +350,6 @@ export default function Editor() {
             >
               Upload file
             </button>
-            <p className="upload-hint muted small">
-              Files go to your Supabase <code>uploads</code> bucket and appear as links. Content is
-              not extracted from <code>.docx</code> (link only). Prefer <code>.txt</code> or{' '}
-              <code>.md</code> if you paste content manually after upload.
-            </p>
-            {uploadNote ? <p className="small">{uploadNote}</p> : null}
           </div>
           <div className="editor-frame">
             <EditorContent editor={editor} />
