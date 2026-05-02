@@ -5,6 +5,10 @@
 Single-page React app with Vite, backed entirely by Supabase (auth, database, storage).
 No custom backend server — all data operations go through the Supabase JS client.
 
+## Hosting
+
+Production is the static output of **`vite build`** on **Vercel**. **`vercel.json`** defines a rewrite so unknown paths return **`/index.html`**, which lets **React Router** handle **`/login`**, **`/dashboard`**, **`/doc/:id`**, etc., on direct navigation and refresh. Files under **`/assets/`** are still served as normal static assets.
+
 ## Frontend
 
 - React + Vite

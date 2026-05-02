@@ -8,6 +8,8 @@
 
 https://ajaia-docs-livid.vercel.app
 
+(Static Vite build on Vercel with **`vercel.json`** SPA rewrites so deep links and refresh do not 404.)
+
 ## Test Accounts
 
 - User 1: mizzatul@tepper.cmu.edu / 12345678
@@ -15,7 +17,7 @@ https://ajaia-docs-livid.vercel.app
 
 ## Walkthrough Video
 
-[paste Loom or YouTube link here]
+https://youtu.be/GtwZOf_581k
 
 ## GitHub Source
 
@@ -29,6 +31,7 @@ https://github.com/afifizzatullah10/ajaia-docs
 | ARCHITECTURE.md | Tech decisions and tradeoffs |
 | AI_WORKFLOW.md | How AI tools were used |
 | SUBMISSION.md | This file |
+| WALKTHROUGH_VIDEO.txt | Walkthrough video URL (same as below) |
 
 ## What Is Working
 
@@ -39,6 +42,7 @@ https://github.com/afifizzatullah10/ajaia-docs
 - Document sharing by email with owned vs. shared distinction
 - Export to Markdown and PDF
 - Full persistence after refresh and logout
+- Vercel production: client routes work on **direct URL** and **browser refresh** (SPA rewrite)
 
 ## What Is Incomplete
 

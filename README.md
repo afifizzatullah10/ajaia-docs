@@ -35,6 +35,10 @@ https://ajaia-docs-livid.vercel.app
 4. Run: `npm run dev`
 5. Open: http://localhost:5173
 
+## Deploy on Vercel
+
+Import this repo on [Vercel](https://vercel.com) and set **`VITE_SUPABASE_URL`** and **`VITE_SUPABASE_ANON_KEY`** (same values as local `.env`). The repo includes **`vercel.json`** so routes like **`/login`**, **`/dashboard`**, and **`/doc/:id`** still load after a **hard refresh** or when opened directly (static SPA rewrite to `index.html`).
+
 ## Run Tests
 
 `npm run test`

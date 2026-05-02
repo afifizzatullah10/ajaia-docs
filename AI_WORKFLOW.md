@@ -28,11 +28,18 @@ I pointed the Agent at **`plan2.md`** (external path). It implemented **Export �
 
 I removed long helper copy next to **Upload file** for a cleaner layout, then **re-read the assessment** (supported types must be clear in the UI) and had the Agent add a **short gray hint** under the button. In a follow-up pass, I had the Agent **align the hint and `README.md` with what the code actually does**: the file input accepts **.txt, .md, .docx, PDF, and common images**; every file is stored in the **`uploads`** bucket and **inserted as a link** in the document, with **no import of file contents into the editor body**. That keeps UI + README factual and consistent with the `accept` attribute and the upload handler.
 
+### 6. Vercel “404 NOT_FOUND” on `/login`, `/dashboard`, or `/doc/...`
+
+**What went wrong (plain English):** The shipped app is a **single-page** React app: there is really only **one** HTML file (`index.html`). Routes like `/login` exist **inside the browser** after JavaScript runs. **Vercel** was serving that HTML only at **`/`**. If you **opened or refreshed** `yoursite.vercel.app/login` (or `/dashboard`, or a doc URL), the host looked for a **separate file** at that path, found nothing, and returned **404 NOT_FOUND** — even though the app worked when you navigated from `/` without refreshing.
+
+**Fix:** The Agent added **`vercel.json`** with a **rewrite** so unknown paths still return **`index.html`**, letting React Router take over. Static assets under `/assets/` keep working because Vercel serves real files first. After redeploy, direct URLs and refresh on those routes return **200** again.
+
 ## What I Changed or Rejected (accurate to this project)
 
 - **Changed (RLS):** Replaced the first cross-table `EXISTS` policies with **security-definer helper functions** to stop policy recursion (see `supabase/rls_and_rpc.sql`).
 - **Changed (Markdown export):** `plan2.md` suggested `tiptap-markdown` or manual JSON serialization; we shipped **Turndown on HTML** instead—simpler dependency and fine for this scope.
 - **Rejected (documentation):** An earlier draft of this file claimed an **Express** sharing backend and **keystroke-level** auto-save had been tried and reverted—those **did not happen** in this repo’s timeline. I removed them so this note stays truthful.
+- **Changed (Vercel):** Added **`vercel.json`** (`rewrites` → `/index.html`) so client-side routes are not 404 on refresh or deep links (see §6 above).
 
 ## How I Verified Correctness
 
@@ -40,3 +47,4 @@ I removed long helper copy next to **Upload file** for a cleaner layout, then **
 - **`npm run test`**, **`npm run build`**, **`npm run lint`** after larger edits
 - Confirmed **`.env` is gitignored** and secrets are not in the remote repo
 - Before recording / submitting: **spot-check the live Vercel build** the same way as local
+- After the **`vercel.json`** deploy: confirmed production returns **200** for **`/`**, **`/login`**, and **`/dashboard`** (not 404 on deep links / refresh)
