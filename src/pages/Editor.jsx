@@ -3,6 +3,7 @@ import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { downloadMarkdown, printDocumentPdf } from '../lib/exportDocument.js'
 import { supabase } from '../lib/supabase.js'
 
 function Toolbar({ editor }) {
@@ -71,6 +72,7 @@ export default function Editor() {
   const { id: docId } = useParams()
   const navigate = useNavigate()
   const fileInputRef = useRef(null)
+  const exportMenuRef = useRef(null)
 
   const [doc, setDoc] = useState(null)
   const [title, setTitle] = useState('')
@@ -82,6 +84,7 @@ export default function Editor() {
   const [shareEmail, setShareEmail] = useState('')
   const [shareError, setShareError] = useState('')
   const [shareBusy, setShareBusy] = useState(false)
+  const [exportMenuOpen, setExportMenuOpen] = useState(false)
 
   const dirtyRef = useRef(false)
   const lastSavedRef = useRef({ title: '', content: '' })
@@ -169,6 +172,18 @@ export default function Editor() {
     lastSavedRef.current = { title: doc.title ?? 'Untitled', content: doc.content ?? '' }
     dirtyRef.current = false
   }, [editor, doc])
+
+  useEffect(() => {
+    if (!exportMenuOpen) return
+    function handlePointerDown(ev) {
+      const el = exportMenuRef.current
+      if (el && !el.contains(ev.target)) {
+        setExportMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handlePointerDown)
+    return () => document.removeEventListener('mousedown', handlePointerDown)
+  }, [exportMenuOpen])
 
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -288,6 +303,17 @@ export default function Editor() {
     dirtyRef.current = true
   }
 
+  function handleExportMarkdown() {
+    if (!editor) return
+    downloadMarkdown(title, editor.getHTML())
+    setExportMenuOpen(false)
+  }
+
+  function handleExportPdf() {
+    setExportMenuOpen(false)
+    printDocumentPdf()
+  }
+
   const saveLabel =
     saveState === 'saving'
       ? 'Saving…'
@@ -297,7 +323,7 @@ export default function Editor() {
 
   return (
     <div className="app-shell editor-shell">
-      <header className="top-nav">
+      <header className="top-nav no-print">
         <Link to="/dashboard" className="brand-link">
           ← Dashboard
         </Link>
@@ -332,10 +358,33 @@ export default function Editor() {
               onChange={onTitleChange}
               aria-label="Document title"
             />
-            <span className="muted small">{roleLabel}</span>
+            <span className="muted small no-print">{roleLabel}</span>
           </div>
-          <Toolbar editor={editor} />
-          <div className="editor-upload-row">
+          <div className="editor-toolbar-row no-print">
+            <Toolbar editor={editor} />
+            <div className="export-menu-wrap" ref={exportMenuRef}>
+              <button
+                type="button"
+                className="btn secondary"
+                aria-expanded={exportMenuOpen}
+                aria-haspopup="true"
+                onClick={() => setExportMenuOpen((o) => !o)}
+              >
+                Export
+              </button>
+              {exportMenuOpen ? (
+                <div className="export-menu" role="menu">
+                  <button type="button" role="menuitem" onClick={handleExportMarkdown}>
+                    Export as Markdown
+                  </button>
+                  <button type="button" role="menuitem" onClick={handleExportPdf}>
+                    Export as PDF
+                  </button>
+                </div>
+              ) : null}
+            </div>
+          </div>
+          <div className="editor-upload-row no-print">
             <input
               ref={fileInputRef}
               type="file"
@@ -359,7 +408,7 @@ export default function Editor() {
 
       {shareOpen ? (
         <div
-          className="modal-backdrop"
+          className="modal-backdrop no-print"
           role="presentation"
           onClick={() => !shareBusy && setShareOpen(false)}
         >

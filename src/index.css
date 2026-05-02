@@ -422,3 +422,92 @@ code {
   gap: 0.5rem;
   margin-top: 0.5rem;
 }
+
+.editor-toolbar-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.editor-toolbar-row .editor-toolbar {
+  flex: 1;
+  min-width: min(100%, 280px);
+}
+
+.export-menu-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.export-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 4px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  padding: 0.35rem;
+}
+
+.export-menu button {
+  text-align: left;
+  font: inherit;
+  padding: 0.5rem 0.65rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 4px;
+  color: var(--text);
+}
+
+.export-menu button:hover {
+  background: var(--surface);
+}
+
+@media print {
+  html.is-printing-doc .no-print {
+    display: none !important;
+  }
+
+  html.is-printing-doc {
+    background: #fff;
+  }
+
+  html.is-printing-doc .editor-main {
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  html.is-printing-doc .doc-title-input {
+    border: none;
+    padding: 0 0 0.75rem;
+    font-size: 22pt;
+    font-weight: 600;
+    color: #000;
+  }
+
+  html.is-printing-doc .editor-frame {
+    border: none;
+    padding: 0;
+    min-height: auto;
+  }
+
+  html.is-printing-doc .tiptap-editor-inner {
+    min-height: auto;
+    color: #000;
+  }
+
+  html.is-printing-doc .tiptap-editor-inner a {
+    color: #000;
+    text-decoration: underline;
+  }
+}
