@@ -6,6 +6,8 @@ A lightweight collaborative document editor built with React, TipTap, and Supaba
 
 https://ajaia-docs-livid.vercel.app
 
+**Submission package (Google Drive):** [folder with all deliverables](https://drive.google.com/drive/folders/1J3j6XHuJrmm1iy-EbIcPACI6LYa5Orj_?usp=sharing) — see also **`SUBMISSION.md`** in this repo.
+
 ## Test Accounts
 
 - User 1: mizzatul@tepper.cmu.edu / 12345678

@@ -23,7 +23,15 @@ https://youtu.be/GtwZOf_581k
 
 https://github.com/afifizzatullah10/ajaia-docs
 
+## Google Drive (all deliverables)
+
+Submission folder with the same markdown docs, walkthrough URL file, and related materials:
+
+https://drive.google.com/drive/folders/1J3j6XHuJrmm1iy-EbIcPACI6LYa5Orj_?usp=sharing
+
 ## Files in This Folder
+
+These files are in the **repo** and mirrored in the **Drive** folder above.
 
 | File | Description |
 |------|-------------|
