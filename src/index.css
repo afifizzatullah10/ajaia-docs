@@ -349,6 +349,20 @@ code {
   margin-bottom: 1rem;
 }
 
+.editor-upload-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+
+.upload-supported-hint {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
 .editor-frame {
   flex: 1;
   border: 1px solid var(--border);

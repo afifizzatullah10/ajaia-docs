@@ -385,20 +385,26 @@ export default function Editor() {
             </div>
           </div>
           <div className="editor-upload-row no-print">
-            <input
-              ref={fileInputRef}
-              type="file"
-              className="visually-hidden"
-              accept=".txt,.md,.docx,.pdf,.png,.jpg,.jpeg,.webp"
-              onChange={handleFileSelected}
-            />
-            <button
-              type="button"
-              className="btn secondary"
-              onClick={() => fileInputRef.current?.click()}
-            >
-              Upload file
-            </button>
+            <div className="editor-upload-col">
+              <input
+                ref={fileInputRef}
+                type="file"
+                className="visually-hidden"
+                accept=".txt,.md,.docx,.pdf,.png,.jpg,.jpeg,.webp"
+                onChange={handleFileSelected}
+              />
+              <button
+                type="button"
+                className="btn secondary"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                Upload file
+              </button>
+              <p className="upload-supported-hint">
+                Supported: .txt, .md, .docx, PDF, images — stored in Supabase and added as a link;
+                contents are not imported into the editor body.
+              </p>
+            </div>
           </div>
           <div className="editor-frame">
             <EditorContent editor={editor} />

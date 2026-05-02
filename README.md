@@ -41,4 +41,4 @@ https://ajaia-docs-livid.vercel.app
 
 ## Supported File Upload Types
 
-.txt and .md preferred. .docx uploads as link only — content not extracted.
+The editor shows the same facts in the UI: **.txt**, **.md**, **.docx**, **PDF**, and common **images** can be chosen; every upload is stored in the **`uploads`** bucket and **inserted as a link** in the doc. **No file type is parsed into the editor body** (no automatic .txt/.md/.docx import).
